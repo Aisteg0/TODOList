@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  ToDoList
+
+  Created by Михаил Ганин on 31.08.2024.
+  
+*/
+
+"NewTodo" = "New Todo";
+"SaveTodo" = "Save Todo";
+"AddTodo" = "Add Todo";
+"detail" = "Task Detail";
+"todo" = "Todo";
+"completed" = "Completed";
+"status" = "Status:";
+"details" = "Details";
