@@ -9,14 +9,8 @@ import SwiftUI
 import CoreData
 
 struct AddToDo: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Todo.completed, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Todo>
-    @Environment (\.dismiss) var dismiss
-    @Binding var todos: [Todos]
-    
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var todoList: TodoList
     @State private var newTodoText: String = ""
     @State private var newTodoCompleted: Bool = false
     
@@ -24,7 +18,7 @@ struct AddToDo: View {
         Form {
             TextField("NewTodo", text: $newTodoText)
             Button(action: {
-                saveTodo()
+                todoList.addTodo(todoText: newTodoText, completed: newTodoCompleted, id: 0, userId: 0)
                 dismiss()
             }, label: {
                 Text("SaveTodo")
@@ -34,18 +28,5 @@ struct AddToDo: View {
             .padding()
         }
         .navigationTitle("AddTodo")
-    }
-    
-    private func saveTodo() {
-        let newTodo = Todo(context: viewContext)
-        newTodo.todo = newTodoText
-        newTodo.completed = newTodoCompleted
-        newTodo.id = 0
-        newTodo.userId = 0
-        try? viewContext.save()
-        DispatchQueue.main.async {
-            let newTodoItem = Todos(todo: newTodoText, completed: newTodoCompleted, id: 0, userId: 0)
-            todos.append(newTodoItem)
-        }
     }
 }

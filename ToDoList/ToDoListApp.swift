@@ -13,7 +13,8 @@ struct ToDoListApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TODOView()
+            let todoList = TodoList(viewContext: persistenceController.container.viewContext)
+            TODOView(todoList: todoList)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

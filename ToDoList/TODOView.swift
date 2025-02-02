@@ -10,21 +10,20 @@ import CoreData
 
 struct TODOView: View {
     
-    @Environment(\.managedObjectContext) private var viewContext
-    let persistenceController = PersistenceController.shared
-    @State private var todos: [Todos] = []
-    @State private var isMapCalled = false
+    @ObservedObject var todoList: TodoList
     
     var body: some View {
         NavigationStack  {
             VStack {
                 List {
-                    ForEach(todos) { todo in
+                    ForEach(todoList.items) { todo in
                         HStack {
-                            NavigationLink(destination: ToDoRefactor(todo: todo)) {
-                                Text(todo.todo ?? "")
-                                Image(systemName: todo.completed ?? false ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(todo.completed ?? false ? .green : .red)
+                            //                            NavigationLink(destination: ToDoRefactor(todoList: todo)) {
+                            HStack {
+                                Text(todo.todo)
+                                Image(systemName: todo.completed ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(todo.completed ? .green : .red)
+                                //                                                    }
                             }
                         }
                     }
@@ -32,7 +31,7 @@ struct TODOView: View {
                 }
                 .toolbar {
                     ToolbarItem {
-                        NavigationLink(destination: AddToDo(todos: $todos)) {
+                        NavigationLink(destination: AddToDo(todoList: todoList)) {
                             Image(systemName: "plus")
                         }
                     }
@@ -42,47 +41,59 @@ struct TODOView: View {
             }
         }
         .onAppear() {
-            if !isMapCalled {
+            if todoList.items.isEmpty {
                 map()
-                isMapCalled = true
             }
         }
     }
     
+    
     private func map() {
-        let url = URL(string: "https://dummyjson.com/todos")
-        guard let url else { return }
+        guard let url = URL(string: "https://dummyjson.com/todos") else { return }
+        
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data else { return }
+            guard let data = data else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
             let jsonDecoder = JSONDecoder()
-            let response = try? jsonDecoder.decode(TodosItem.self, from: data)
-            guard let response else { return }
-            DispatchQueue.main.async {
-                self.todos = response.todos ?? []
+            
+            do {
+                let response = try jsonDecoder.decode(TodosItem.self, from: data)
+                
+                if let todos = response.todos {
+                    DispatchQueue.main.async {
+                        for todo in todos {
+                            let newTodo = Todo(context: todoList.viewContext)
+                            newTodo.todo = todo.todo ?? ""
+                            newTodo.completed = todo.completed ?? false
+                            newTodo.id = Int64(todo.id ?? 0)
+                            newTodo.userId = Int64(todo.userId ?? 0)
+                        }
+                        do {
+                            try todoList.viewContext.save()
+                        } catch {
+                            print("Ошибка сохранения: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            } catch {
+                print("Ошибка декодирования: \(error.localizedDescription)")
             }
         }
         task.resume()
     }
     
-    private func saveToDo() {
-        let viewContext = persistenceController.container.viewContext
-        let fetchRequest: NSFetchRequest<Todo> = Todo.fetchRequest()
-        let fetchedTodos = try! viewContext.fetch(fetchRequest)
-        let newTodo = fetchedTodos.map { Todos(todo: $0.todo, completed: $0.completed, id: 0, userId: 0) }
-        self.todos.append(contentsOf: newTodo)
-    }
-    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { todos[$0] }.forEach { todo in
-                if let index = todos.firstIndex(where: { $0.id == todo.id }) {
-                    todos.remove(at: index)
-                }
+            offsets.map { todoList.items[$0] }.forEach(todoList.viewContext.delete)
+            do {
+                try todoList.viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
     }
 }
 
-#Preview {
-    TODOView()
-}

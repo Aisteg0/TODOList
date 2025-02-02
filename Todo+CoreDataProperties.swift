@@ -17,7 +17,7 @@ extension Todo {
     }
 
     @NSManaged public var completed: Bool
-    @NSManaged public var todo: String?
+    @NSManaged public var todo: String
     @NSManaged public var id: Int64
     @NSManaged public var userId: Int64
 
