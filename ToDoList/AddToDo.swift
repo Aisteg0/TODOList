@@ -10,23 +10,21 @@ import CoreData
 
 struct AddToDo: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var todoList: TodoList
-    @State private var newTodoText: String = ""
-    @State private var newTodoCompleted: Bool = false
+    @ObservedObject var presenter: TodoPresenter
+    @State private var newTodo: String = ""
+    @State private var isCompleted: Bool = false
     
     var body: some View {
         Form {
-            TextField("NewTodo", text: $newTodoText)
-            Button(action: {
-                todoList.addTodo(todoText: newTodoText, completed: newTodoCompleted, id: 0, userId: 0)
+            TextField("New Todo", text: $newTodo)
+            Toggle("Completed", isOn: $isCompleted)
+            Button("Add Todo") {
+                presenter.addTodo(todo: newTodo, completed: isCompleted, userId: 1)
+                newTodo = ""
+                isCompleted = false
                 dismiss()
-            }, label: {
-                Text("SaveTodo")
-                    .frame(maxWidth: .infinity)
-            })
-            .buttonStyle(BorderlessButtonStyle())
-            .padding()
+            }
         }
-        .navigationTitle("AddTodo")
+        .navigationTitle("Add Todo")
     }
 }

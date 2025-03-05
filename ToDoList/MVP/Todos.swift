@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class Todos : Codable, Identifiable, ObservableObject {
+class Todos : Decodable, Identifiable, ObservableObject {
     let id : Int?
     var todo : String?
     var completed : Bool?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TodosItem : Codable {
+struct TodosItem : Decodable {
     let todos : [Todos]?
     let total : Int?
     let skip : Int?

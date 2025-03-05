@@ -20,7 +20,7 @@
 		8C2342592C82719300D430F5 /* Todo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2342572C82719300D430F5 /* Todo+CoreDataClass.swift */; };
 		8C23425A2C82719300D430F5 /* Todo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2342582C82719300D430F5 /* Todo+CoreDataProperties.swift */; };
 		8C23425D2C8398BE00D430F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C23425B2C8398BE00D430F5 /* Localizable.strings */; };
-		8CA2E8D72D4EA046005F449D /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA2E8D62D4EA046005F449D /* TodoList.swift */; };
+		8CA98E152D7607C20054422C /* TodoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA98E142D7607C20054422C /* TodoPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +39,7 @@
 		8C2342582C82719300D430F5 /* Todo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Todo+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		8C23425C2C8398BE00D430F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8C23425E2C8398D400D430F5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8CA2E8D62D4EA046005F449D /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
+		8CA98E142D7607C20054422C /* TodoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,15 +72,9 @@
 		8C2342312C813B9600D430F5 /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				8C2342572C82719300D430F5 /* Todo+CoreDataClass.swift */,
-				8C2342582C82719300D430F5 /* Todo+CoreDataProperties.swift */,
 				8C2342322C813B9600D430F5 /* ToDoListApp.swift */,
-				8C2342452C813CEE00D430F5 /* TODOView.swift */,
-				8CA2E8D62D4EA046005F449D /* TodoList.swift */,
-				8C2342472C813D3D00D430F5 /* Todos.swift */,
-				8C2342492C813D5D00D430F5 /* TodosItem.swift */,
-				8C23424B2C81F67200D430F5 /* ToDoRefactor.swift */,
 				8C23424D2C8206B100D430F5 /* AddToDo.swift */,
+				8CA98E132D7607A70054422C /* MVP */,
 				8C23425B2C8398BE00D430F5 /* Localizable.strings */,
 				8C2342362C813B9800D430F5 /* Assets.xcassets */,
 				8C23423B2C813B9800D430F5 /* Persistence.swift */,
@@ -96,6 +90,20 @@
 				8C2342392C813B9800D430F5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8CA98E132D7607A70054422C /* MVP */ = {
+			isa = PBXGroup;
+			children = (
+				8CA98E142D7607C20054422C /* TodoPresenter.swift */,
+				8C2342452C813CEE00D430F5 /* TODOView.swift */,
+				8C23424B2C81F67200D430F5 /* ToDoRefactor.swift */,
+				8C2342472C813D3D00D430F5 /* Todos.swift */,
+				8C2342492C813D5D00D430F5 /* TodosItem.swift */,
+				8C2342582C82719300D430F5 /* Todo+CoreDataProperties.swift */,
+				8C2342572C82719300D430F5 /* Todo+CoreDataClass.swift */,
+			);
+			path = MVP;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,13 +179,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C2342462C813CEE00D430F5 /* TODOView.swift in Sources */,
-				8CA2E8D72D4EA046005F449D /* TodoList.swift in Sources */,
 				8C23424C2C81F67200D430F5 /* ToDoRefactor.swift in Sources */,
 				8C23423C2C813B9800D430F5 /* Persistence.swift in Sources */,
 				8C23424A2C813D5D00D430F5 /* TodosItem.swift in Sources */,
 				8C2342592C82719300D430F5 /* Todo+CoreDataClass.swift in Sources */,
 				8C23425A2C82719300D430F5 /* Todo+CoreDataProperties.swift in Sources */,
 				8C2342332C813B9600D430F5 /* ToDoListApp.swift in Sources */,
+				8CA98E152D7607C20054422C /* TodoPresenter.swift in Sources */,
 				8C23423F2C813B9800D430F5 /* ToDoList.xcdatamodeld in Sources */,
 				8C23424E2C8206B100D430F5 /* AddToDo.swift in Sources */,
 				8C2342482C813D3D00D430F5 /* Todos.swift in Sources */,
